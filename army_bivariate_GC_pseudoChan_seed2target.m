@@ -182,7 +182,7 @@ switch PWGC_analyses_type
 %             target_pseudochan{9,1} = {'CP5','P5','P7'}; % inferior parietal
 %             target_pseudochan{10,1} = {'P5','PO3','POz'}; % sri orthographic sensor #1
 %             target_pseudochan{11,1} = {'C3','CP3','CP1','CPz','P1','P3','P5','Pz'}; % sri  parietal sensor
-
+%{
             for xk = 1:length(seed_pseudochan)
                 seed_idx = find(ismember(all_channels, seed_pseudochan{xk}));
                 goodTrials = preproc_data.trialInfo;
@@ -214,6 +214,22 @@ switch PWGC_analyses_type
                     target_window_avg{w} = mean(target_pseudochan_data(:, win_start:win_end, :), 2);
                 end
 
+                target_pseudochan_data_avg{xm,1} = mean(target_pseudochan_data,1);
+                clear target_idx target_pseudochan_data
+            end
+%}
+            for xk = 1:length(seed_pseudochan)
+                seed_idx = find(ismember(all_channels, seed_pseudochan{xk}));
+                goodTrials = preproc_data.trialInfo;
+                seed_pseudochan_data = preproc_data.data(seed_idx,:,goodTrials);
+                seed_pseudochan_data_avg{xk,1} = mean(seed_pseudochan_data,1);
+                clear seed_idx seed_pseudochan_data
+            end
+            
+            for xm = 1:length(target_pseudochan)
+                target_idx = find(ismember(all_channels,  target_pseudochan{xm}));
+                goodTrials = preproc_data.trialInfo;
+                target_pseudochan_data = preproc_data.data(target_idx,:,goodTrials);
                 target_pseudochan_data_avg{xm,1} = mean(target_pseudochan_data,1);
                 clear target_idx target_pseudochan_data
             end
