@@ -4,8 +4,8 @@
 % the 3 seed channels are first averaged together, to create a "psuedochannel" seed and then all pairwise GC are computed 
 % to the target channels.
 
-homeDir = '/Users/yuanran/Library/CloudStorage/OneDrive-GeorgetownUniversity/GU/Lab/MaxLab';
-sourceDir = fullfile(homeDir,'GC');
+homeDir = '../'
+sourceDir = fullfile(homeDir,'GC'); % source dir is current directory
 % subjectID = [4001 4003 4004 4005 4006 4007 4008 4009 4010 4011 4013 4015 4016 4018 4020 4021 4022 4023];
 % subjectID = [4001 4003 4004 4005 4006 4007 4008 4009 4010 4011 4013 4015 4016 4018 4020 4021 4022 4023];
 % for some reason I was exluding 4004, 4020 but should exclude 4007, 4018 as that is what is exluded in SVM
@@ -217,6 +217,7 @@ switch PWGC_analyses_type
                 target_pseudochan_data_avg{xm,1} = mean(target_pseudochan_data,1);
                 clear target_idx target_pseudochan_data
             end
+
 %             %% Changing the lines above to add a sliding window of 20
 
 %             %% separate the seed and target data into percDiff and prodDiff trials here 
@@ -344,9 +345,11 @@ elapsed_time = toc; % Stop the timer and calculate the elapsed time
 disp(['Elapsed time: ', num2str(elapsed_time), ' seconds']);
 
 temp_combos = pwgc_mov_seed2target_key(:,:, 1);
+
 %         
 % create_perception_pwgc_figures_Fxy_v4(GC_results_dir,pwgc_mov_seed2target_key,squeeze(pwgc_mov_seed2target_results),seed_pseudochan,temp_combos,fs,sliding_window,model_order,pop_thresh)
 % create_perception_pwgc_figures_Fyx_v4(GC_results_dir,pwgc_mov_seed2target_key,squeeze(pwgc_mov_seed2target_results),seed_pseudochan,temp_combos,fs,sliding_window,model_order,pop_thresh)
 % 
 % results_dir = ['/home/plamen/Research/SpeechProduction/EEG/derivatives/BSMART/perception/seed_to_target_channels/pcROI_seed_to_pcROI_target/SW20_MO10_fs500_3LHSeeds_LHTargets/python_visualization_dir'];
-% perception_pwgc_data_to_python(results_dir,pwgc_mov_seed2target_key,squeeze(pwgc_mov_seed2target_results),seed_pseudochan,temp_combos,fs,sliding_window,model_order,pop_thresh)
+% perception_pwgc_data_to_python(results_dir,pwgc_mov_seed2target_key,squeeze(pwgc_mov_seed2target_results),seed_pseudochan,temp_combos,fs,sliding_window,model_order,pop_thresh)cd(GC_derivDir)  % bring us back to the point
+cd(GC_derivDir)  % bring us back to the point
