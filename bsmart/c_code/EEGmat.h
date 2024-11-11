@@ -52,4 +52,23 @@ Complex Conj(Complex);
 void CmatmCmat(Complex *A,Complex *B,Complex *C,int m);
 void ConjCmat(Complex *A,Complex *B,int m);
 void Carrayp(Complex *A, Complex *B, Complex *C, int m);
+
+/* MARfit.c */
+void MARfit(double *x[],int m,int n[],int k,int Order,
+		     double tildeA[]);
+
+/* MARgetpfpb.c */
+void MARgetpfpb(double *x[],int m,int n[],int k,int order,
+		     double Pf[],double Pb[],double Pfb[],
+		     double **A, double **B);
+
+/* MARgetaic.c */
+void MARgetaic(double tildA[],int nchns,int Order,int sampleno,
+		     double aic[]);
+
+/* EEGrealA.c */
+void EEGrealA(double *tildA, double **realA, double *Ve,int m, int order);
+
+
+
 #endif

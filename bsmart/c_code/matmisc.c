@@ -1,7 +1,7 @@
 /* matrix calculation subroutine */
 
 #include<stdlib.h>
-void EEGerror();
+#include "matmisc.h"
 
 /* 1. initial vector */
 

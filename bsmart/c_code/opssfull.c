@@ -9,7 +9,7 @@
 #include "EEGmat.h"
 
 
-main(int argc, char**argv)
+int main(int argc, char**argv)
 { 
   int NPTS =0;
   int NCHN =0;
