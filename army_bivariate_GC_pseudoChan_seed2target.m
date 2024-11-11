@@ -4,7 +4,7 @@
 % the 3 seed channels are first averaged together, to create a "psuedochannel" seed and then all pairwise GC are computed 
 % to the target channels.
 
-homeDir = '../'
+homeDir = fullfile(pwd(), '..'); % get fix-ed path here.
 sourceDir = fullfile(homeDir,'GC'); % source dir is current directory
 % subjectID = [4001 4003 4004 4005 4006 4007 4008 4009 4010 4011 4013 4015 4016 4018 4020 4021 4022 4023];
 % subjectID = [4001 4003 4004 4005 4006 4007 4008 4009 4010 4011 4013 4015 4016 4018 4020 4021 4022 4023];
