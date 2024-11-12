@@ -12,9 +12,9 @@ addpath(fullfile(sourceDir, 'bsmart/'));
 % for some reason I was exluding 4004, 4020 but should exclude 4007, 4018 as that is what is exluded in SVM
 
 % try ecluding 4, 14, 19 because >50% bad trials 
-% subjectID = [4001 4003 4005 4006 4007 4008 4009 4010 4011 4013 4015 4016 4018 4020 4021 4022 4023];
+subjectID = [4001 4003 4005 4006 4007 4008 4009 4010 4011 4013 4015 4016 4018 4020 4021 4022 4023];
 % subjectID = [4004 4014 4019]
-subjectID = [0004];
+% subjectID = [0004];
 
 reref_scheme = 'mastoid_ref';
 timing_scheme = 'BIOSEMI_analog_din';
