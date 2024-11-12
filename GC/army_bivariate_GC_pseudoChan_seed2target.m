@@ -6,6 +6,7 @@
 
 homeDir = fullfile(pwd(), '..'); % get fix-ed path here.
 sourceDir = fullfile(homeDir,'GC'); % source dir is current directory
+addpath(fullfile(sourceDir, 'bsmart/'));
 % subjectID = [4001 4003 4004 4005 4006 4007 4008 4009 4010 4011 4013 4015 4016 4018 4020 4021 4022 4023];
 % subjectID = [4001 4003 4004 4005 4006 4007 4008 4009 4010 4011 4013 4015 4016 4018 4020 4021 4022 4023];
 % for some reason I was exluding 4004, 4020 but should exclude 4007, 4018 as that is what is exluded in SVM
@@ -57,41 +58,40 @@ preproc_scheme = 'eeglab_standard';
 % look into the subjects that have very high early PWGC (t=0) - perhaps
 % noisy? why might that be? 
 % 
-% if fs == 2000
-%     switch sliding_window
-%         case 60 % 30ms
-%             load('time_axis_SW30.mat');
-%             time_temp = [0:0.5:(302-sliding_window)];
-% %             load('baseline_time_axis_SW30.mat');
-%             data_vector_length_ = length(time_temp);
-%             baseline_vector_length = 71;
-% %         case 
-% %         case 20
-% %             load('time_axis_SW20.mat');
-% %             load('baseline_time_axis_SW20.mat');
-% %             data_vector_length = 132;
-% %             baseline_vector_length = 81;
-% %         case 15
-% %             load('time_axis_SW15.mat');
-% %             load('baseline_time_axis_SW15.mat');
-% %             data_vector_length = 137;
-% %             baseline_vector_length = 86;
-%     end
-%     
-% elseif fs == 500
-%     switch sliding_window
-%         case 15 % 30ms SW
-%             load('time_axis_SW15.mat');
-%             load('baseline_time_axis_SW15.mat');
-%             data_vector_length = 137;
-%             baseline_vector_length = 86;
-%         case 30 % 60ms SW
-%             load('time_axis_SW30.mat');
-%             load('baseline_time_axis_SW30.mat');
-%             data_vector_length_ = 122;
-%             baseline_vector_length = 71;
-%     end
-% end
+if fs == 2000
+    switch sliding_window
+        case 60 % 30ms
+            load('time_axis_SW30.mat');
+            time_temp = [0:0.5:(302-sliding_window)];
+            load('baseline_time_axis_SW30.mat');
+            data_vector_length_ = length(time_temp);
+            baseline_vector_length = 71;
+        case 20
+            load('time_axis_SW20.mat');
+            load('baseline_time_axis_SW20.mat');
+            data_vector_length = 132;
+            baseline_vector_length = 81;
+        case 15
+            load('time_axis_SW15.mat');
+            load('baseline_time_axis_SW15.mat');
+            data_vector_length = 137;
+            baseline_vector_length = 86;
+    end
+
+elseif fs == 500
+    switch sliding_window
+        case 15 % 30ms SW
+            load('time_axis_SW15.mat');
+            load('baseline_time_axis_SW15.mat');
+            data_vector_length = 137;
+            baseline_vector_length = 86;
+        case 30 % 60ms SW
+            load('time_axis_SW30.mat');
+            load('baseline_time_axis_SW30.mat');
+            data_vector_length_ = 122;
+            baseline_vector_length = 71;
+    end
+end
 
 % to compute new SW-specific time axis: 
 % time_axis = times(time_window(1:end-SW+1))
@@ -126,11 +126,11 @@ switch PWGC_analyses_type
             
             switch fs
                 case 2000
-%                    if strcmp(reref_scheme, 'average_ref')
-%                        behavDataFile = sprintf(['ARO',int2str(subjectID(subjIdx)),'_task-perception_0.1_30_sep_1_1_average_ref_-0.2_0.6_popthresh%d.mat'],pop_thresh);
-%                    elseif strcmp(reref_scheme, 'mastoid_ref')
-%                        behavDataFile = sprintf(['ARO',int2str(subjectID(subjIdx)),'_task-perception_0.1_30_sep_1_1_mastoid_ref_-0.2_0.6_popthresh%d.mat'],pop_thresh);
-%                    end
+                   if strcmp(reref_scheme, 'average_ref')
+                       behavDataFile = sprintf(['ARO',int2str(subjectID(subjIdx)),'_task-perception_0.1_30_sep_1_1_average_ref_-0.2_0.6_popthresh%d.mat'],pop_thresh);
+                   elseif strcmp(reref_scheme, 'mastoid_ref')
+                       behavDataFile = sprintf(['ARO',int2str(subjectID(subjIdx)),'_task-perception_0.1_30_sep_1_1_mastoid_ref_-0.2_0.6_popthresh%d.mat'],pop_thresh);
+                   end
                 case 500
                      if strcmp(reref_scheme, 'average_ref')
                          behavDataFile = sprintf(['ARO' int2str(subjectID(subjIdx)) '_task-perception_0.1_30_sep_1_1_average_ref_-0.2_0.6_500Hz_reSample_popthresh%d.mat'],pop_thresh);
@@ -165,23 +165,23 @@ switch PWGC_analyses_type
 % %             target_pseudochan{2,1} = {'C3','CP3','CP1','CPz','P1','P3','P5','Pz'};
 
             seed_pseudochan{1,1} = {'FT7','T7','TP7'}; % temporal
-%             seed_pseudochan{2,1} = {'F5','FC5','FC3'}; % inferior frontal
-%             seed_pseudochan{3,1} = {'FCz','FC1','F1'}; % superior frontal
+            seed_pseudochan{2,1} = {'F5','FC5','FC3'}; % inferior frontal
+            seed_pseudochan{3,1} = {'FCz','FC1','F1'}; % superior frontal
 
             % tartgets
             target_pseudochan{1,1} = {'FT7','T7','TP7'}; % temporal
-%             target_pseudochan{2,1} = {'F5','FC5','FC3'}; % inferior frontal
-%             target_pseudochan{3,1} = {'FCz','FC1','F1'}; % superior frontal
-%             target_pseudochan{4,1} = {'CPz','CP1','P1'}; %superior parietal candidate #1
-%             target_pseudochan{5,1} = {'CP1','CP3','P1'}; %superior parietal candidate #2
-%             target_pseudochan{6,1} = {'CP5','P5','P7'}; % inferior parietal
-%             target_pseudochan{4,1} = {'Cz','C1','C3'}; % motor
-%             target_pseudochan{6,1} = {'CP1','CP3','P1'}; %superior parietal candidate #2
-%             target_pseudochan{7,1} = {'CP3','P1','P3'}; %superior parietal candidate #3
-%             target_pseudochan{8,1} = {'CP3','CP5','P3'}; %middle parietal
-%             target_pseudochan{9,1} = {'CP5','P5','P7'}; % inferior parietal
-%             target_pseudochan{10,1} = {'P5','PO3','POz'}; % sri orthographic sensor #1
-%             target_pseudochan{11,1} = {'C3','CP3','CP1','CPz','P1','P3','P5','Pz'}; % sri  parietal sensor
+            target_pseudochan{2,1} = {'F5','FC5','FC3'}; % inferior frontal
+            target_pseudochan{3,1} = {'FCz','FC1','F1'}; % superior frontal
+            target_pseudochan{4,1} = {'CPz','CP1','P1'}; %superior parietal candidate #1
+            target_pseudochan{5,1} = {'CP1','CP3','P1'}; %superior parietal candidate #2
+            target_pseudochan{6,1} = {'CP5','P5','P7'}; % inferior parietal
+            target_pseudochan{4,1} = {'Cz','C1','C3'}; % motor
+            target_pseudochan{6,1} = {'CP1','CP3','P1'}; %superior parietal candidate #2
+            target_pseudochan{7,1} = {'CP3','P1','P3'}; %superior parietal candidate #3
+            target_pseudochan{8,1} = {'CP3','CP5','P3'}; %middle parietal
+            target_pseudochan{9,1} = {'CP5','P5','P7'}; % inferior parietal
+            target_pseudochan{10,1} = {'P5','PO3','POz'}; % sri orthographic sensor #1
+            target_pseudochan{11,1} = {'C3','CP3','CP1','CPz','P1','P3','P5','Pz'}; % sri  parietal sensor
 %{
             for xk = 1:length(seed_pseudochan)
                 seed_idx = find(ismember(all_channels, seed_pseudochan{xk}));
