@@ -117,7 +117,6 @@ switch PWGC_analyses_type
     case 'full_epoch_window'
         fprintf('running PWGC on full epoch time windows.....\n')
         for subjIdx = 1:length(subjectID)
-            
             subjName = ['ARO' int2str(subjectID(subjIdx))];
             fprintf('working on %s\n',subjName)
             derivDir = [homeDir, '/GC'];
@@ -318,9 +317,11 @@ switch PWGC_analyses_type
                     target_combined = strjoin(target_pseudochan_set, '_');
 
                     dat = [sdata;target_pseudochan_data_avg{t_idx,:,:}];
+                    datp1 = permute(dat, [2,1,3]); % now it is 350 x 2 x 655
+                    datp2 = permute(dat, [2,3,1]); % or use 350 x 655 x 2
                     %             [Fxy, Fyx] = mov_bi_ga(dat,start_idx,end_idx,30,15,500,[1:30]);
                     tic
-                    [Fxy, Fyx] = mov_bi_ga(dat,start_idx,end_idx,sliding_window,model_order,500,[1:30]);
+                    [Fxy, Fyx] = mov_bi_ga(datp1,start_idx,end_idx,sliding_window,model_order,500,[1:30]);
                     toc
                     pairwise_channel_combo = sprintf('seed_%s_target_%s', seed_combined, target_combined);
                     %             pwgc_mov_seed2target_results.(pairwise_channel_combo) = {Fxy, Fyx};
