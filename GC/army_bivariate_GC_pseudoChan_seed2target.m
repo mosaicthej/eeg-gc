@@ -306,7 +306,8 @@ switch PWGC_analyses_type
                 seed_pseudochan_set = seed_pseudochan{s_idx};
                 seed_combined = strjoin(seed_pseudochan_set, '_');
 
-                for t_idx = 1:nTargets
+                parpool(nTargets)
+                parfor t_idx = 1:nTargets
                     if isequal(seed_pseudochan_set, target_pseudochan{t_idx})
                         % Write an empty cell array to the index if seed and target match
                         temp_results{s_idx, t_idx} = [];
