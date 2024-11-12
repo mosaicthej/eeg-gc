@@ -20,6 +20,7 @@ reref_scheme = 'mastoid_ref';
 timing_scheme = 'BIOSEMI_analog_din';
 preproc_scheme = 'eeglab_standard';
 
+parpool_allocated = false;
 
 % with 500Hz fs % RUN THIS ASAP & visualize 
 % define hyperparams for GC 
@@ -306,7 +307,10 @@ switch PWGC_analyses_type
                 seed_pseudochan_set = seed_pseudochan{s_idx};
                 seed_combined = strjoin(seed_pseudochan_set, '_');
 
-                parpool(nTargets)
+                if ~parpool_allocated % parpool should only be allocated once
+                    parpool(nTargets)
+                    parpool_allocated = true;
+                end
                 parfor t_idx = 1:nTargets
                     if isequal(seed_pseudochan_set, target_pseudochan{t_idx})
                         % Write an empty cell array to the index if seed and target match
